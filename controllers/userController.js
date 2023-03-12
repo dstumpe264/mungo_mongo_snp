@@ -33,5 +33,27 @@ module.exports = {
                 console.log(err);
                 return res.status(500).json(err);
             })
-    }
+    },
+
+    // create a new user
+    createUser(req, res) {
+        User.create(req.body)
+            .then((user) => res.json(user))
+            .catch((err) => res.status(500).json(err));
+    },
+
+    // Delete a user and remove thoughts and reactions
+    deleteUser(req, res) {
+        User.findOneAndRemove({ _id: req.params.userId })
+        .then((user) =>
+            !user
+            ? res.status(404).json({ message: 'No such user exists' })
+            : res.json({ message: 'Student successfully deleted' })
+            
+        )
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+    },
 }
