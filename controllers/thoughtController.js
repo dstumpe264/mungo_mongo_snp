@@ -29,6 +29,11 @@ module.exports = {
 
         );
       })
+      .then((user) =>
+        !user
+            ? res.status(404).json({message: 'Thought created, but no user found.'})
+            : res.json('Thought created')
+      )
       .catch((err) => {
         console.log(err);
         return res.status(500).json(err);
